@@ -55,16 +55,17 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: -8, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 mt-2 w-52 rounded-2xl border border-white/[0.08] shadow-card overflow-hidden"
+                className="absolute right-0 mt-2 w-full min-w-[56px] rounded-2xl border border-white/[0.08] shadow-card overflow-hidden"
                 style={{ background: 'rgba(18,18,26,0.98)', backdropFilter: 'blur(20px)' }}
               >
                 <div className="p-1">
                   <button
                     onClick={() => { setDropOpen(false); logout(); }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-rose-400 hover:bg-rose-500/10 transition-colors text-sm font-medium"
+                    className="w-full flex items-center justify-center sm:justify-start gap-2.5 px-3 py-2.5 rounded-xl text-rose-400 hover:bg-rose-500/10 transition-colors text-sm font-medium"
+                    title="Sign Out"
                   >
-                    <LogOut size={15} />
-                    Sign Out
+                    <LogOut size={15} className="shrink-0" />
+                    <span className="hidden sm:inline">Sign Out</span>
                   </button>
                 </div>
               </motion.div>
