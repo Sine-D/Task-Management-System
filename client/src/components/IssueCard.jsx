@@ -7,7 +7,7 @@ import SeverityBadge from './SeverityBadge';
 import { formatDateTime } from '../utils/format';
 import { ISSUE_STATUS } from '../constants/issueConstants';
 
-export default function IssueCard({ issue, onResolve, onClose, onEdit, onDelete }) {
+export default function IssueCard({ issue, isAdmin, onResolve, onClose, onEdit, onDelete }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -43,6 +43,11 @@ export default function IssueCard({ issue, onResolve, onClose, onEdit, onDelete 
           <div className="flex items-center gap-1 text-[11px] text-dark-300">
             <Clock size={11} />
             {formatDateTime(issue.updatedAt)}
+            {isAdmin && issue.createdBy?.name && (
+              <span className="text-violet-400 ml-1.5 font-medium border-l border-white/10 pl-1.5" title={`Created by ${issue.createdBy.name} (${issue.createdBy.email})`}>
+                by {issue.createdBy.name}
+              </span>
+            )}
           </div>
           <Link
             to={`/issues/${issue._id}`}

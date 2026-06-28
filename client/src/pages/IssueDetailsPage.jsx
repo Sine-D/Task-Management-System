@@ -180,6 +180,11 @@ export default function IssueDetailsPage() {
                 <MetaRow label="Status"><StatusBadge status={issue.status} /></MetaRow>
                 <MetaRow label="Priority"><PriorityBadge priority={issue.priority} /></MetaRow>
                 <MetaRow label="Severity"><SeverityBadge severity={issue.severity} /></MetaRow>
+                {issue.createdBy?.name && (
+                  <MetaRow label="Created By">
+                    <span className="text-xs text-white font-semibold">{issue.createdBy.name}</span>
+                  </MetaRow>
+                )}
                 <MetaRow label="Issue ID">
                   <code className="text-[10px] font-mono text-violet-400 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded">
                     {issue._id.slice(-10).toUpperCase()}

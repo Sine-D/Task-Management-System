@@ -271,6 +271,7 @@ export default function DashboardPage() {
               <motion.div key={issue._id} variants={item}>
                 <IssueCard
                   issue={issue}
+                  isAdmin={user?.role === 'Admin'}
                   onEdit={handleEdit}
                   onResolve={i => handleStatus(i, 'Resolved')}
                   onClose={i => handleStatus(i, 'Closed')}

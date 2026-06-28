@@ -2,8 +2,12 @@ const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const Issue = require('../models/Issue');
 
-const buildIssueFilters = ({ q, status, priority, severity }, userId) => {
-  const filters = { createdBy: userId };
+const buildIssueFilters = ({ q, status, priority, severity }, user) => {
+  const filters = {};
+
+  if (user.role !== 'Admin') {
+    filters.createdBy = user._id;
+  }
 
   if (q) {
     filters.$or = [
@@ -45,10 +49,10 @@ const getIssues = async (req, res) => {
   const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 50);
   const skip = (page - 1) * limit;
 
-  const filters = buildIssueFilters(req.query, req.user._id);
+  const filters = buildIssueFilters(req.query, req.user);
 
   const [issues, total] = await Promise.all([
-    Issue.find(filters).sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Issue.find(filters).populate('createdBy', 'name email role').sort({ createdAt: -1 }).skip(skip).limit(limit),
     Issue.countDocuments(filters),
   ]);
 
@@ -74,7 +78,12 @@ const getIssueById = async (req, res) => {
     return res.status(400).json({ message: 'Invalid issue id' });
   }
 
-  const issue = await Issue.findOne({ _id: id, createdBy: req.user._id });
+  const query = { _id: id };
+  if (req.user.role !== 'Admin') {
+    query.createdBy = req.user._id;
+  }
+
+  const issue = await Issue.findOne(query).populate('createdBy', 'name email role');
   if (!issue) {
     return res.status(404).json({ message: 'Issue not found' });
   }
@@ -93,7 +102,12 @@ const updateIssue = async (req, res) => {
     return res.status(400).json({ message: 'Invalid issue id' });
   }
 
-  const existingIssue = await Issue.findOne({ _id: id, createdBy: req.user._id });
+  const query = { _id: id };
+  if (req.user.role !== 'Admin') {
+    query.createdBy = req.user._id;
+  }
+
+  const existingIssue = await Issue.findOne(query);
   if (!existingIssue) {
     return res.status(404).json({ message: 'Issue not found' });
   }
@@ -126,7 +140,12 @@ const updateIssueStatus = async (req, res) => {
     return res.status(400).json({ message: 'Invalid status value' });
   }
 
-  const issue = await Issue.findOne({ _id: id, createdBy: req.user._id });
+  const query = { _id: id };
+  if (req.user.role !== 'Admin') {
+    query.createdBy = req.user._id;
+  }
+
+  const issue = await Issue.findOne(query);
   if (!issue) {
     return res.status(404).json({ message: 'Issue not found' });
   }
@@ -145,7 +164,12 @@ const deleteIssue = async (req, res) => {
     return res.status(400).json({ message: 'Invalid issue id' });
   }
 
-  const issue = await Issue.findOneAndDelete({ _id: id, createdBy: req.user._id });
+  const query = { _id: id };
+  if (req.user.role !== 'Admin') {
+    query.createdBy = req.user._id;
+  }
+
+  const issue = await Issue.findOneAndDelete(query);
 
   if (!issue) {
     return res.status(404).json({ message: 'Issue not found' });
@@ -155,8 +179,13 @@ const deleteIssue = async (req, res) => {
 };
 
 const getIssueStats = async (req, res) => {
+  const matchQuery = {};
+  if (req.user.role !== 'Admin') {
+    matchQuery.createdBy = req.user._id;
+  }
+
   const counts = await Issue.aggregate([
-    { $match: { createdBy: req.user._id } },
+    { $match: matchQuery },
     {
       $group: {
         _id: '$status',

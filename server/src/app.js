@@ -5,13 +5,20 @@ const authRoutes = require('./routes/authRoutes');
 const issueRoutes = require('./routes/issueRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const connectDB = require('./config/db');
+const seedAdmin = require('./config/seed');
 
 const app = express();
+
+let isSeeded = false;
 
 // Ensure DB connection for serverless
 app.use(async (req, res, next) => {
   try {
     await connectDB();
+    if (!isSeeded) {
+      await seedAdmin();
+      isSeeded = true;
+    }
     next();
   } catch (err) {
     next(err);
