@@ -79,6 +79,22 @@ export default function RegisterPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-violet-600/5 pointer-events-none" />
 
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md relative z-10">
+          {/* Mobile Branding Header */}
+          <div className="flex lg:hidden flex-col items-center text-center mb-6 gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-blue-600 flex items-center justify-center shadow-glow-sm">
+                <Zap size={18} className="text-white" />
+              </div>
+              <span className="text-white font-display text-lg font-bold">Issue<span className="text-violet-400">Track</span></span>
+            </div>
+            <h1 className="text-2xl font-display font-bold text-white tracking-tight leading-tight mt-1">
+              Ship with <span className="gradient-text">confidence.</span>
+            </h1>
+            <p className="text-dark-300 text-xs max-w-xs">
+              Start tracking, resolving and collaborating on issues in minutes — completely free.
+            </p>
+          </div>
+
           <GlassCard className="p-8">
             <div className="mb-8">
               <h2 className="text-2xl font-display font-bold text-white tracking-tight">Create account</h2>
