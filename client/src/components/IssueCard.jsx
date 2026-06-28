@@ -53,8 +53,8 @@ export default function IssueCard({ issue, onResolve, onClose, onEdit, onDelete 
           </Link>
         </div>
 
-        {/* Action bar — shown on hover */}
-        <div className="flex items-center gap-1.5 pt-1 opacity-0 group-hover:opacity-100 transition-all duration-200 -mb-1">
+        {/* Action bar — shown on hover on desktop, always visible on mobile */}
+        <div className="flex items-center gap-1.5 pt-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all duration-200 -mb-1">
           <button
             onClick={(e) => { e.stopPropagation(); onEdit(issue); }}
             className="p-1.5 rounded-lg text-dark-200 hover:text-white hover:bg-white/10 transition-all"

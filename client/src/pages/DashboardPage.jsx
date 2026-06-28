@@ -160,7 +160,7 @@ export default function DashboardPage() {
             <p className="text-dark-300 text-sm mt-1">Monitor, track and resolve your project issues</p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Refresh */}
             <button
               onClick={handleRefresh}

@@ -45,10 +45,10 @@ export default function IssueFormModal({ open, onClose, onSubmit, issue, isSubmi
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.97 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="relative w-full sm:max-w-2xl rounded-t-3xl sm:rounded-3xl border border-white/[0.09] shadow-glow-md"
+            className="relative w-full sm:max-w-2xl rounded-t-3xl sm:rounded-3xl border border-white/[0.09] shadow-glow-md flex flex-col max-h-[90vh] sm:max-h-[85vh]"
             style={{ background: 'rgba(14,14,20,0.98)', backdropFilter: 'blur(24px)' }}
           >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent z-10" />
 
             <div className="flex items-center justify-between px-7 py-5 border-b border-white/[0.06]">
               <div>
@@ -63,7 +63,7 @@ export default function IssueFormModal({ open, onClose, onSubmit, issue, isSubmi
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="px-7 py-6 space-y-5 pb-32">
+            <form onSubmit={handleSubmit} className="px-7 py-6 space-y-5 overflow-y-auto max-h-full custom-scrollbar pb-6 flex-1">
               <Input
                 label="Title"
                 icon={Info}
